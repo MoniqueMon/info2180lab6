@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<p> Click the button to carry out a search </p>
+		<button type="button" id="butn"> Search </button>
+		<title> Search </title>
+		
+		<script>
+				document.getElementById("butn").onclick = function() {mySearch();};
+				
+				function mySearch()
+				{
+				var httpRequest = new XMLHttpRequest();
+				httpRequest.onreadystatechange = function() 
+				{
+					if (httpRequest.readyState === 4 && httpRequest.status === 200) 
+					{
+						alert(httpRequest.responseText);
+					}
+				
+				};
+				
+				httpRequest.open('GET',"request.php?q=definition",true);
+				httpRequest.send();
+				}
+				
+		</script>
+
+		
+	</body>
+</html>
