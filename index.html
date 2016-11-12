@@ -1,31 +1,40 @@
-<!DOCTYPE html>
+<!DOCTYPE <!DOCTYPE html>
 <html>
-	<body>
-		<p> Click the button to carry out a search </p>
-		<button type="button" id="butn"> Search </button>
-		<title> Search </title>
-		
-		<script>
-				document.getElementById("butn").onclick = function() {mySearch();};
-				
-				function mySearch()
-				{
-				var httpRequest = new XMLHttpRequest();
-				httpRequest.onreadystatechange = function() 
-				{
-					if (httpRequest.readyState === 4 && httpRequest.status === 200) 
-					{
-						alert(httpRequest.responseText);
-					}
-				
-				};
-				
-				httpRequest.open('GET',"request.php?q=definition",true);
-				httpRequest.send();
-				}
-				
-		</script>
-
-		
-	</body>
+    <body>
+        <div style="background-color:#E464E4;color:white;padding:40px;">
+			<h1 style="font-family:verdana;">Web Dictionary</h1>
+			</div>
+        <br> </br>
+        <form action="request.php" method = "post">
+            Dictionary Search:
+            <input type="text" name="m" id="word"/> <button type="button" id="butn"> Search </button>
+        </form>
+        
+        
+        <br> </br>
+        <div id="result"> Result </div></div>
+        <p id= "par"> </p>
+        
+        <script>
+            document.getElementById("butn").onclick = function() {search();};
+            function search(){
+                var httpRequest = new XMLHttpRequest();
+                var i = document.getElementById("word").value;
+                
+                httpRequest.onreadystatechange = function()
+                {
+                    if (httpRequest.readyState === 4 && httpRequest.status === 200)
+                    {
+                        document.getElementById("result").innerHTML = httpRequest.responseText;
+                        
+                    }
+                    
+                    
+                };
+                httpRequest.open('GET', "request.php?q=" +i,true);
+                httpRequest.send();
+            }
+            
+            </script> 
+    </body>
 </html>
