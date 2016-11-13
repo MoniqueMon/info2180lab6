@@ -1,0 +1,65 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+    <body>
+        <div style="background-color:#E464E4;color:white;padding:40px;">
+			<h1 style="font-family:verdana;">Web Dictionary</h1>
+			</div>
+        <br> </br>
+        <form action="request.php" method = "post">
+            Dictionary Search:
+            <input type="text" name="m" id="word"/> <button type="button" id="butn"> Search </button> <button type="button" id="AllB"> Get All Definitions </button>
+        </form>
+        
+        
+        <br> </br>
+        <div id="result"> Result </div></div>
+        <p id= "par"> </p>
+        
+        <script>
+            document.getElementById("butn").onclick = function() {search();};
+            
+            function search(){
+                var httpRequest = new XMLHttpRequest();
+                var i = document.getElementById("word").value;
+                
+                httpRequest.onreadystatechange = function()
+                {
+                    if (httpRequest.readyState === 4 && httpRequest.status === 200)
+                    {
+                        document.getElementById("result").innerHTML = httpRequest.responseText;
+                        
+                    }
+                    
+                    
+                };
+                httpRequest.open('GET', "request.php?q=" +i,true);
+                httpRequest.send();
+            }
+            
+            document.getElementById("AllB").onclick = function() {Asearch();};
+            function Asearch()
+            {
+                var result;
+                var xmlRequest = new XMLHttpRequest();
+                var j;
+                xmlRequest.onreadystatechange = function()
+                {
+                    if (xmlRequest.readyState === 4 && xmlRequest.status === 200)
+                    var xmldoc = xmlRequest.responseXML;
+                    var def = xmldoc.getElementsByTagName("definition");
+                    
+                    for (j = 0; j<def.length; j++)
+                    {
+                        result += "<h3>"+"<br>"+"Name:"+def[j].getAttribute("name")+" "+"Meaning: "+def[j].innerHTML +"<br/> "+ "Author: "+def[j].getAttribute("author") + "<br/" + "<br/>";
+                    }
+                    document.getElementById("par").innerHTML = result;
+                };
+            
+                xmlRequest.open("GET", "request.php?q=&all=true",true);
+                xmlRequest.send();
+            }
+            
+            
+            </script> 
+    </body>
+</html>
