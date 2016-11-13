@@ -7,7 +7,7 @@
         <br> </br>
         <form action="request.php" method = "post">
             Dictionary Search:
-            <input type="text" name="m" id="word"/> <button type="button" id="butn"> Search </button>
+            <input type="text" name="m" id="word"/> <button type="button" id="butn"> Search </button> <button type="button" id="AllB"> Get All Definitions </button>
         </form>
         
         
@@ -17,6 +17,7 @@
         
         <script>
             document.getElementById("butn").onclick = function() {search();};
+            
             function search(){
                 var httpRequest = new XMLHttpRequest();
                 var i = document.getElementById("word").value;
@@ -34,6 +35,30 @@
                 httpRequest.open('GET', "request.php?q=" +i,true);
                 httpRequest.send();
             }
+            
+            document.getElementById("AllB").onclick = function() {Asearch();};
+            function Asearch()
+            {
+                var result;
+                var xmlRequest = new XMLHttpRequest();
+                var j;
+                xmlRequest.onreadystatechange = function()
+                {
+                    if (xmlRequest.readyState === 4 && xmlRequest.status === 200)
+                    var xmldoc = xmlRequest.responseXML;
+                    var def = xmldoc.getElementsByTagName("definition");
+                    
+                    for (j = 0; j<def.length; j++)
+                    {
+                        result += "<h3>"+"<br>"+"Name:"+def[j].getAttribute("name")+" "+"Meaning: "+def[j].innerHTML +"<br/> "+ "Author: "+def[j].getAttribute("author") + "<br/" + "<br/>";
+                    }
+                    document.getElementById("par").innerHTML = result;
+                };
+            
+                xmlRequest.open("GET", "request.php?q=&all=true",true);
+                xmlRequest.send();
+            }
+            
             
             </script> 
     </body>
